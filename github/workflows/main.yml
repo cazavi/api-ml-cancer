@@ -11,7 +11,7 @@ on:
 env:
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-  IMAGE_NAME: tu_usuario_docker/cancer-api # ¡CAMBIA ESTO!
+  IMAGE_NAME: cazavi/cancer-api
 
 jobs:
   build_and_test:
