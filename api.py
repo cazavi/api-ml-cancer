@@ -26,7 +26,7 @@ warnings.filterwarnings('ignore')
 MODEL_FILENAME = 'model_cancer.pkl'
 #1.Entrenamiento del modelo
 # Set the path to the file you'd like to load
-file_path = "..\EvaluacionM10\data.csv"
+file_path = "data.csv"
 
 try:
     # Intenta cargar el modelo si ya existe
@@ -50,7 +50,7 @@ except FileNotFoundError:
     try:
         data = pd.read_csv(file_path)
     except FileNotFoundError:
-        logging.error("ERROR CRÍTICO: 'data.csv' no encontrado. Asegúrate de descargarlo y colocarlo en la misma carpeta.")
+        logging.error("ERROR CRÍTICO: 'data.csv' no encontrado. Asegurate de descargarlo y colocarlo en la misma carpeta.")
         raise
 
     # 1. Preprocesamiento (Cáncer de Mama)
@@ -73,7 +73,7 @@ except FileNotFoundError:
     # 2. Entrenamiento
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
     model = RandomForestClassifier(random_state=42)
-    model.fit(X_train, y_test) # Nota: Se corrigió aquí, debe ser y_train
+    model.fit(X_train, y_train)
     
     # 3. Guardar modelo
     joblib.dump(model, MODEL_FILENAME)
@@ -90,7 +90,7 @@ def index():
     logging.info("Ruta '/' accedida. Estado del servicio OK.")
     return jsonify({
         "status": "OK", 
-        "message": "API de Predicción de Cáncer de Mama activa.",
+        "message": "API de Prediccion de Cancer de Mama activa.",
         "model_features": N_FEATURES # Útil para que el usuario sepa cuántas características enviar
     }), 200
 
@@ -102,7 +102,7 @@ def predict():
     except Exception:
         logging.error("Fallo al procesar el JSON de entrada.")
         return jsonify({
-            "error": "Solicitud JSON no válida. Asegúrese de enviar un JSON bien formado."
+            "error": "Solicitud JSON no valida. Asegúrese de enviar un JSON bien formado."
         }), 400
     
     # 1. Validación de entradas
@@ -116,9 +116,9 @@ def predict():
     
     # 2. Validación de la dimensión
     if not isinstance(features, list) or len(features) != N_FEATURES:
-        logging.error(f"Se esperaban {N_FEATURES} características, se recibieron {len(features) if isinstance(features, list) else 'ninguna'}.")
+        logging.error(f"Se esperaban {N_FEATURES} caracteristicas, se recibieron {len(features) if isinstance(features, list) else 'ninguna'}.")
         return jsonify({
-            "error": f"Se requieren exactamente {N_FEATURES} valores numéricos en la lista 'features' (Breast Cancer Dataset)."
+            "error": f"Se requieren exactamente {N_FEATURES} valores numericos en la lista 'features' (Breast Cancer Dataset)."
         }), 400
 
     # 3. Predicción
@@ -138,7 +138,7 @@ def predict():
 
     except Exception as e:
         # 4. Manejo de errores (General del modelo o cálculo)
-        logging.error(f"Error interno durante la predicción: {str(e)}")
+        logging.error(f"Error interno durante la prediccion: {str(e)}")
         # Devuelve un código 500 para errores internos del servidor/modelo
         return jsonify({
             "error": "Error interno del servidor. Revise el log."

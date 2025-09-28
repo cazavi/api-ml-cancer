@@ -4,9 +4,9 @@ docker build -t cancer-api .
 
 docker ps  # Para ver el ID de tu contenedor en ejecución
 docker stop <ID_DEL_CONTENEDOR>  # Para cerrar ejecución 
-docker run -p 5000:5000 cancer-api
 
 #Prueba servicio desde nueva terminal
+docker run -p 5000:5000 -d cancer-api
 Invoke-WebRequest -Method Get -Uri http://localhost:5000/
 Resultado esperado: Un JSON con "status": "OK" y el mensaje de bienvenida.
 
