@@ -1,0 +1,77 @@
+# Nombre del Workflow
+name: CI/CD - API ML con Docker
+
+# Eventos que disparan el workflow
+on:
+  push:
+    branches:
+      - main # Se ejecuta cuando se suben cambios a la rama 'main'
+
+# Variables globales para el Docker Hub
+env:
+  DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+  IMAGE_NAME: tu_usuario_docker/cancer-api # ¡CAMBIA ESTO!
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # ----------------------------------------------------------------------
+      # 1. BUILD: Construcción de la Imagen
+      # ----------------------------------------------------------------------
+      - name: Build Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: false # Solo construimos la imagen en este paso
+          tags: ${{ env.IMAGE_NAME }}:latest
+          load: true # Cargar la imagen para usarla en los tests locales
+
+      # ----------------------------------------------------------------------
+      # 2. TEST: Prueba de Endpoints Básicos
+      # ----------------------------------------------------------------------
+      - name: Run Test Container
+        # Ejecuta la imagen en segundo plano para poder probarla
+        run: docker run -d -p 5000:5000 --name api-test ${{ env.IMAGE_NAME }}:latest
+
+      - name: Wait for API to be ready
+        # Espera un momento (5 segundos) a que Flask se inicie
+        run: sleep 5
+        
+      - name: Test GET / (Estado del Servicio)
+        run: |
+          curl -X GET http://localhost:5000/ | grep "status"
+          
+      - name: Test POST /predict (Predicción)
+        # Comando CURL con 30 features para el dataset de Cáncer de Mama
+        run: |
+          curl -X POST http://localhost:5000/predict \
+          -H "Content-Type: application/json" \
+          -d '{"features":[17.99, 10.38, 122.8, 1001, 0.1184, 0.2776, 0.3001, 0.1471, 0.2419, 0.07871, 1.095, 0.9053, 8.589, 153.4, 0.006399, 0.04904, 0.05373, 0.01587, 0.03003, 0.006193, 25.38, 17.33, 184.6, 2019, 0.1622, 0.6656, 0.7119, 0.2654, 0.4601, 0.1189]}' \
+          | grep "prediction_code" # Verifica que la respuesta contenga el resultado
+
+      # ----------------------------------------------------------------------
+      # 3. PUSH: Subir a Docker Hub (Solo si pasa el Test)
+      # ----------------------------------------------------------------------
+      - name: Login to Docker Hub
+        if: success()
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Push Docker Image to Registry
+        if: success()
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ env.IMAGE_NAME }}:latest
