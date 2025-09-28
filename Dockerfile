@@ -16,4 +16,4 @@ EXPOSE 5000
 #Ejecutar app
 CMD ["python", "api.py"]
 #-------------------
-  
+#FINAL FIX 28092025
