@@ -29,9 +29,9 @@ Sigue estos pasos para construir la imagen y probar la API en tu máquina local 
 
 1. Construir la Imagen
 Asegúrate de estar en el directorio raíz del proyecto y ejecuta:
-```
+$$$
 docker build -t cancer-api .
-```
+$$$
 
 En caso de contenedor previo abierto 
 ```
