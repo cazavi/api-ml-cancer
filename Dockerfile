@@ -1,3 +1,4 @@
+# Esto es un commit de prueba para activar el CI/CD.
 #3. Contenerización
 #Escribe un Dockerfile que instale todas las dependencias y ejecute tu app.
 #Imagen base
