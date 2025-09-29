@@ -1,7 +1,7 @@
 # **breast-cancer-ml-api 🎗️**
 \
 Contenerización de una API de Clasificación de Cáncer de Mama (Docker + CI/CD)
-Este proyecto implementa una API RESTful simple utilizando Flask para exponer un modelo de Machine Learning (Random Forest Classifier), entrenado con el dataset de Cáncer de Mama (Wisconsin). El objetivo principal es demostrar un flujo de Contenerización con Docker y CI/CD Automatizado (GitHub Actions).\
+Este proyecto implementa una API RESTful simple utilizando Flask para exponer un modelo de Machine Learning (Random Forest Classifier), entrenado con el dataset de Cáncer de Mama (Wisconsin). El objetivo principal es demostrar un flujo de Contenerización con Docker y CI/CD Automatizado (GitHub Actions).
 
 ### Tecnologías Clave
 - Lenguaje: Python 3.10
@@ -29,10 +29,14 @@ Sigue estos pasos para construir la imagen y probar la API en tu máquina local 
 
 1. Construir la Imagen
 Asegúrate de estar en el directorio raíz del proyecto y ejecuta:
-`docker build -t cancer-api .`
+```
+docker build -t cancer-api .
+```
 
 En caso de contenedor previo abierto 
-`docker ps
+```
+docker ps
+```
 Para ver el ID de tu contenedor en ejecución
 `docker stop <ID_DEL_CONTENEDOR>`\
 Para cerrar ejecución 
