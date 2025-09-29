@@ -29,35 +29,43 @@ Sigue estos pasos para construir la imagen y probar la API en tu máquina local 
 
 1. Construir la Imagen
 Asegúrate de estar en el directorio raíz del proyecto y ejecuta:
-$$$
+```
 docker build -t cancer-api .
-$$$
+```
 
 En caso de contenedor previo abierto 
 ```
 docker ps
 ```
 Para ver el ID de tu contenedor en ejecución
-`docker stop <ID_DEL_CONTENEDOR>`\
+```
+docker stop <ID_DEL_CONTENEDOR>
+```
 Para cerrar ejecución 
 
 2. Ejecutar el Contenedor
 Ejecuta el contenedor, mapeando el puerto 5000:
 (Prueba servicio desde nueva terminal)
-`docker run -p 5000:5000 -d cancer-api`
+```
+docker run -p 5000:5000 -d cancer-api
+```
 
 ### Prueba de Endpoints (Validación)
 Puedes usar Invoke-WebRequest (PowerShell) o curl para interactuar con la API.
 
 1. Health Check (GET /)
 Verifica que el servicio está activo:
-`Invoke-WebRequest -Method Get -Uri http://localhost:5000/`
+```
+Invoke-WebRequest -Method Get -Uri http://localhost:5000/
+```
 Respuesta esperada: {"message": "API de Clasificación de Cáncer de Mama", "status": "OK"}
 
 5. Predicción (POST /predict)
 Envía un ejemplo de 30 features (valores numéricos) para obtener una predicción (0: Benigno, 1: Maligno).
 (Probar prediccion desde una nueva terminal)
-`Invoke-WebRequest -Method Post -Uri http://localhost:5000/predict -ContentType "application/json" -Body '{"features":[17.99, 10.38, 122.8, 1001, 0.1184, 0.2776, 0.3001, 0.1471, 0.2419, 0.07871, 1.095, 0.9053, 8.589, 153.4, 0.006399, 0.04904, 0.05373, 0.01587, 0.03003, 0.006193, 25.38, 17.33, 184.6, 2019, 0.1622, 0.6656, 0.7119, 0.2654, 0.4601, 0.1189]}'`
+```
+Invoke-WebRequest -Method Post -Uri http://localhost:5000/predict -ContentType "application/json" -Body '{"features":[17.99, 10.38, 122.8, 1001, 0.1184, 0.2776, 0.3001, 0.1471, 0.2419, 0.07871, 1.095, 0.9053, 8.589, 153.4, 0.006399, 0.04904, 0.05373, 0.01587, 0.03003, 0.006193, 25.38, 17.33, 184.6, 2019, 0.1622, 0.6656, 0.7119, 0.2654, 0.4601, 0.1189]}'
+```
 Respuesta esperada: {"prediction_code":1,"prediction_text":"Maligno (Alto Riesgo)"}
 
 ### CI/CD Automatizado (GitHub Actions)
