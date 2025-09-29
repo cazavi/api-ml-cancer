@@ -28,12 +28,14 @@ api-ml-cancer/
 Sigue estos pasos para construir la imagen y probar la API en tu máquina local (requiere Docker Desktop).
 
 1. Construir la Imagen
-Asegúrate de estar en el directorio raíz del proyecto y ejecuta:
-```docker build -t cancer-api .```
+Asegúrate de estar en el directorio raíz del proyecto y ejecuta:\
+`docker build -t cancer-api .`\
 
-En caso de contenedor previo abierto 
-`docker ps  # Para ver el ID de tu contenedor en ejecución`
-docker stop <ID_DEL_CONTENEDOR>  # Para cerrar ejecución 
+En caso de contenedor previo abierto \
+`docker ps`\
+Para ver el ID de tu contenedor en ejecución
+`docker stop <ID_DEL_CONTENEDOR>`\
+Para cerrar ejecución 
 
 2. Ejecutar el Contenedor
 Ejecuta el contenedor, mapeando el puerto 5000:
