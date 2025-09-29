@@ -2,6 +2,7 @@
 #Construcción
 docker build -t cancer-api .
 
+#en caso de contenedor previo abierto 
 docker ps  # Para ver el ID de tu contenedor en ejecución
 docker stop <ID_DEL_CONTENEDOR>  # Para cerrar ejecución 
 
