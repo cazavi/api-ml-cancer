@@ -11,7 +11,7 @@ on:
 env:
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-  IMAGE_NAME: ${{ env.DOCKER_USERNAME }}/cancer-api
+  IMAGE_NAME: cazavi44/cancer-api
 
 jobs:
   build_and_test:
